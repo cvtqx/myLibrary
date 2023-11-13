@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
-export const AddBook = () => {
+export const AddBook = ({inputID, addButtonHandler, inputIDChangeHandler}) => {
+  
+
+ 
+
   return (
     <Form>
       <Form.Group className='mb-3' controlId="addBook.ControlInput">
@@ -12,9 +16,14 @@ export const AddBook = () => {
           <Form.Control
           placeholder="Book ID Number"
           aria-label="Book ID Number"
-            aria-describedby="basic-addon2"></Form.Control>
-          <Button variant="outline-secondary" id="button-addon2">
-          Button
+          aria-describedby="basic-addon2"
+          value={inputID}
+          onChange={inputIDChangeHandler}></Form.Control>
+          <Button
+            className="btn btn-secondary" 
+            type="button"
+            onClick={addButtonHandler}>
+          Add
         </Button>
         </InputGroup>
       </Form.Group>

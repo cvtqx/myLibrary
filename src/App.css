@@ -2,7 +2,7 @@
   text-align: center;
   border: solid red 1px;
   width: 50vw;
-  height: 50vh;
+  height: fit-content;
   
 }
 
@@ -17,6 +17,16 @@
   text-transform:uppercase;
   font-weight: bold;
   margin: 1em;
+}
+.App ul{
+  list-style: none;
+  width: 100%;
+}
+.App li{
+  margin-bottom: 1em;
+  border-bottom: solid grey 1px;
+  background-color: blue;
+  
 }
 
 
