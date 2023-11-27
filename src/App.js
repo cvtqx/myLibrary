@@ -76,8 +76,6 @@ function App() {
     setInputID('')
   };
 
-
-
   return (
     <div className='App'>
       <header className='App-header'>Library project</header>

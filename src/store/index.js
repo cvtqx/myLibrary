@@ -19,6 +19,24 @@ const booksReducer = (state = initialState, action) => {
                 ...state,
                 books: [action.payload, ...state.books],
             };
+        case 'SORT_BOOKS':
+            let sortedBooks = [...state.books];
+
+            switch (action.payload) {
+                case 'ascending':
+                    sortedBooks.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 'descending':
+                    sortedBooks.sort((a, b) => b.title.localeCompare(a.title));
+                    break;
+                case 'inOrderAdded':
+                    sortedBooks.sort((a, b) => a.addedAt - b.addedAt);
+                    break;
+                default:
+                    break;
+            }
+            return { ...state, books: sortedBooks };
+        
         default:
             return state;
   }
