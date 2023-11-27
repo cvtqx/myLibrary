@@ -1,16 +1,24 @@
 import React from 'react'
+//TO DO: get author details from API
 
-export const Book = ({book}) => {
+export const Book = ({ book }) => {
+    if (!book) {
+        return <p>This book could not be found.</p>
+    };
+
+    const { title, published, author, description } = book;
+
   return (
       <li>
-              <div>
-                  {book.title} <span>({book.year})</span>
+          <div>
+              {title && <span>{title}</span>}
+              {published && <span>({published})</span>}
               </div>
               <div>
-                  {book.author}
+                  {author}
               </div>
               <div>
-                  {book.description}
+              {description ? <span>{description}</span> : <p>No description available</p>}
               </div>
      </li>
   )
