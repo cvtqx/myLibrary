@@ -1,15 +1,18 @@
-import React from 'react'
+import React from 'react';
+
 //TO DO: get author details from API
 
-export const Book = ({ book }) => {
+export const Book = ({ book, openBookEditor }) => {
+
     if (!book) {
         return <p>This book could not be found.</p>
     };
 
     const { title, published, author, description } = book;
 
-  return (
-      <li>
+
+ return (
+      <li onClick = {openBookEditor}>
           <div>
               {title && <span>{title}</span>}
               {published && <span>({published})</span>}
