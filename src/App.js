@@ -10,19 +10,25 @@ import { EditBook } from './components/EditBook';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
 
+//TO DO: add error alert component and set up error state
+
 function App() {
   
   const dispatch = useDispatch();
   const books = useSelector((state) => state.books);
   const [inputID, setInputID] = useState('');
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedBookId, setEditedBookId] = useState('');
+  const [error, setError] = useState(false);
 
   const inputIDChangeHandler = e => {
     setInputID(e.target.value)
   };
 
-  const openBookEditor = () => {
-    setIsEditing(true)
+  const openBookEditor = (bookId) => {
+    setIsEditing(true);
+    setEditedBookId(bookId);
+    console.log('Editing', bookId)
   }
 
   const fetchBookDetails = async () => {
@@ -32,6 +38,7 @@ function App() {
       console.log(data)
       const newBook = {
         id: uuidv4(),
+        OLID: inputID,
         title: data.title,
         author: 'Unknown author',
         published: data.publish_date,
@@ -51,9 +58,13 @@ function App() {
     setInputID('')
   };
 
+  const handleCancelClick = () => {
+    setIsEditing(false);
+  }
+
 return (
   <>
-    {isEditing && <EditBook />}
+    {isEditing && <EditBook bookId={editedBookId} handleCancelClick={handleCancelClick} />}
     {!isEditing && (
       <div className='App'>
         <header className='App-header'>Library project</header>

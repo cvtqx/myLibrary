@@ -19,6 +19,12 @@ const booksReducer = (state = initialState, action) => {
                 ...state,
                 books: [action.payload, ...state.books],
             };
+        case 'UPDATE_BOOK':
+            const updatedBooks = state.books.map(book => book.id === action.payload.id ? action.payload : book);
+            return {
+                ...state,
+                books: updatedBooks,
+            };
         case 'SORT_BOOKS':
             let sortedBooks = [...state.books];
 
@@ -36,6 +42,7 @@ const booksReducer = (state = initialState, action) => {
                     break;
             }
             return { ...state, books: sortedBooks };
+        
         
         default:
             return state;
