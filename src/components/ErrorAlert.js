@@ -1,7 +1,11 @@
-import React from 'react'
-
-export const ErrorAlert = () => {
+function ErrorAlert({ error }) {
   return (
-    <div>Error!</div>
-  )
+    
+      <div className="alert alert-danger m-2">
+        {error}
+      </div>
+    
+  );
 }
+
+export default ErrorAlert;

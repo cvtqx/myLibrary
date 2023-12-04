@@ -9,6 +9,7 @@ import { EditBook } from './components/EditBook';
 
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
+import ErrorAlert from './components/ErrorAlert';
 
 //TO DO: add error alert component and set up error state
 
@@ -19,10 +20,11 @@ function App() {
   const [inputID, setInputID] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [editedBookId, setEditedBookId] = useState('');
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
 
   const inputIDChangeHandler = e => {
-    setInputID(e.target.value)
+    setInputID(e.target.value);
+    setError(null);
   };
 
   const openBookEditor = (bookId) => {
@@ -32,29 +34,37 @@ function App() {
   }
 
   const fetchBookDetails = async () => {
-    try {
-      const { data } = await axios.get(`https://openlibrary.org/books/${inputID}.json`);
+    if (inputID) {
+       try {
+          const { data } = await axios.get(`https://openlibrary.org/books/${inputID}.json`);
       
-      console.log(data)
-      const newBook = {
-        id: uuidv4(),
-        OLID: inputID,
-        title: data.title,
-        author: 'Unknown author',
-        published: data.publish_date,
-        description: '',
-        addedAt: Date.now(),
-      };
-      console.log(newBook);
-      dispatch(addBook(newBook));
-        } catch (error) {
+          if (data.title) {
+            const newBook = {
+            id: uuidv4(),
+            OLID: inputID,
+            title: data.title,
+            author: 'Unknown author',
+            published: data.publish_date,
+            description: '',
+            addedAt: Date.now(),
+          };
+  
+          dispatch(addBook(newBook));
+          } else {
+            setError('No book found with the provided ID');
+      }    
+    } catch (error) {
+          setError("Error fetching book details. Please try again");     
           console.error('Error fetching book details:', error)
         }
+    } else {
+      setError('Please enter a valid book ID');
+    } 
   };
 
 
-  const addButtonHandler = () => {
-    fetchBookDetails();
+  const addButtonHandler = async() => {
+    await fetchBookDetails();
     setInputID('')
   };
 
@@ -75,7 +85,12 @@ return (
             inputIDChangeHandler={inputIDChangeHandler}
           />
           <SortOrder />
-          <BookList books={books} openBookEditor={openBookEditor} />
+          {error ? (
+            <ErrorAlert error= {error}/>
+          ): (
+             <BookList books={books} openBookEditor={openBookEditor} />  
+          )}
+         
         </main>
       </div>
     )}
