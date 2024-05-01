@@ -37,7 +37,7 @@ function App() {
     if (inputID) {
        try {
           const { data } = await axios.get(`https://openlibrary.org/books/${inputID}.json`);
-      
+      console.log(data)
           if (data.title) {
             const newBook = {
             id: uuidv4(),
